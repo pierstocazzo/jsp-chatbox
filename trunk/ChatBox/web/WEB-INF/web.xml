@@ -4,9 +4,17 @@
         <servlet-name>AdminLogin</servlet-name>
         <servlet-class>admin.AdminLogin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AjaxRequestHandler</servlet-name>
+        <servlet-class>chat.AjaxRequestHandler</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminLogin</servlet-name>
         <url-pattern>/AdminLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxRequestHandler</servlet-name>
+        <url-pattern>/AjaxRequestHandler</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

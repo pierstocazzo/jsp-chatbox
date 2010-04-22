@@ -40,7 +40,12 @@ QueryObject.prototype.val = function(val){
 QueryObject.prototype.append = function(content){
     if(typeof content == 'string'){
         for(i in this.elmts){
-            this.elmts[i].innerHTML += content;
+            container = document.createElement("div");
+            container.innerHTML = content;
+            temp = container.childNodes;
+            for(t in temp){
+                this.elmts[i].appendChild(temp.item(0));
+            }
         }
     } else if(content instanceof QueryObject){
         for(i in this.elmts){
@@ -50,11 +55,21 @@ QueryObject.prototype.append = function(content){
         }
     } else if(content instanceof Element){
         for(i in this.elmts){
-            return this.elmts[i].appendChild(content);
+            this.elmts[i].appendChild(content);
         }
     }
     return this;
 };
+
+// Removing Element
+QueryObject.prototype.remove = function(expr){
+    for(i in this.elmts){
+        if(this.elmts[i].parentNode){
+            this.elmts[i].parentNode.removeChild(this.elmts[i])
+        }
+    }
+    return this;
+}
 
 /* CSS */
 //Class
@@ -95,6 +110,8 @@ QueryObject.prototype.removeClass = function(String){
         
         this.elmts[i].className = classes.join(' ');
     }
+
+    return this;
 }
 
 /* Events */
@@ -111,47 +128,65 @@ QueryObject.prototype.keypress = function(fn){
     for(i in this.elmts){
         this.elmts[i].onkeypress = fn;
     }
+    return this;
 }
 
 /* Ajax */
 $.ajax = function(options){
     var xmlhttp;
 
+    if(!options.contentType) {
+        options.contentType = 'application/x-www-form-urlencoded';
+    }
+
     if(options.type == "GET") {
         options.data = null;
-}
+    }
 
     if(window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
 
-        xmlhttp.onreadystatechange = function(options){
-            var response;
-
-            if(xmlhttp.readyState == 4){
-                switch(option.dataType){
-                    case 'text':
-                        response = xmlhttp.responseText;
-                    break;
-                    case 'html':
-                        response = xmlhttp.responseText;
-                    break;
-                    case 'xml':
-                        response = xmlhttp.responseText;
-                    break;
-                    case 'json':
-                        response = eval('('+xmlhttp.responseText+')');
-                    break;
-                }
-                if(xmlhttp.status == 200) {
-                    options.success(xmlhttl);
-                }
-                else {
-                    options.error(xmlhttp);
-                }
-                options.complete(xmlhttp);
-            }
+        xmlhttp.onload = function(){
+            options.success(xmlhttp.responseText, xmlhttp.statusText);
+            options.complete(xmlhttp.responseText, xmlhttp.statusText);
         };
-        xmlhttp.open(option.type,option.url,true);
-        xmlhttp.send(option.data);
+        
+        xmlhttp.open(options.type,options.url,true);
+        
+        xmlhttp.setRequestHeader('Content-type', options.contentType);
+        xmlhttp.send(options.data);
     }
+
+    return xmlhttp;
 };
+
+$.post = function(url,data,callback,type){
+    var opt = {
+        url:url,
+        type:"POST",
+        data:data,
+        success:callback,
+        dataType:type
+    };
+
+    return $.ajax(opt);
+}
+
+QueryObject.prototype.load = function(url,data,callback){
+    var o = $(this);
+
+    var opt = {
+        url:url,
+        type:"POST",
+        data:data,
+        success:function(data, status) {
+            o.html(data);
+        },
+        complete:callback(data,status),
+        dataType:'html'
+    };
+
+    $.ajax(opt)
+
+    return this;
+}
