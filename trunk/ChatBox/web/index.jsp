@@ -12,8 +12,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script type="text/javascript" src="js/lib.js"></script>
     </head>
     <body>
+        <div id="header">
         <h1>Hello World!</h1>
+        </div>
+        <div id="tabs"></div>
+        <div id="main"></div>
     </body>
 </html>
