@@ -3,10 +3,11 @@
  * and open the template in the editor.
  */
 
-package admin;
+package chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author zaniar
  */
-public class AdminLogin extends HttpServlet {
+public class AjaxRequestHandler extends HttpServlet {
+    private Statement stmt;
+    private ResultSet rs;
+    private Connection conn;
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -27,21 +31,18 @@ public class AdminLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        String page = request.getParameter("page");
+
         PrintWriter out = response.getWriter();
-        try {
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AdminLogin</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AdminLogin at " + request.getContextPath () + "</h1>");
-            out.println(request.getParameter("name"));
-            out.println("</body>");
-            out.println("</html>");
-        } finally { 
+        try{
+            if(page.equals("rooms")){
+                out.println("rooms list");
+            }
+            if(page.equals("friends")){
+                out.println("friens list");
+            }
+        } finally {
             out.close();
-            //response.sendRedirect("Admin");
         }
     } 
 
@@ -80,5 +81,15 @@ public class AdminLogin extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void openDbConnection(){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/chatbox";
+            this.conn = DriverManager.getConnection(url,"zaniar","zaniar");
+            this.stmt = this.conn.createStatement();
+        } catch(Exception e){
+        }
+    }
 
 }

@@ -22,13 +22,9 @@
                 <div id="title">ChatBox</div>
             </div>
             <div id="tabs">
-                <ul>
-                    <li id="rooms" class="tab selected">Rooms</li>
-                    <li id="friends" class="tab">Friends</li>
-                </ul>
+                <ul><li id="rooms" class="tab">Rooms</li><li id="friends" class="tab">Friends</li></ul>
             </div>
             <div id="main">
-                
             </div>
             <div id="input">
                 <input id="inputline" type="text" name="inputline" value="" />

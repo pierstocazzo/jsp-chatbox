@@ -50,7 +50,7 @@ body {
     margin:0;
 }
 
-#tabs li {
+.tab {
     display:inline;
     border:1px solid #fff;
     color:#fff;
@@ -59,8 +59,17 @@ body {
     cursor:pointer;
 }
 
-#tabs li.selected {
+.tab.selected {
     background:#fff;
+    color:#800;
+}
+
+.tab .close-tab-button {
+    text-decoration:none;
+    color:#fff;
+}
+
+.tab .close-tab-button .selected {
     color:#800;
 }
 
