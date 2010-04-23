@@ -39,7 +39,7 @@ public class AjaxRequestHandler extends HttpServlet {
                 out.println("rooms list");
             }
             if(page.equals("friends")){
-                out.println("friens list");
+                out.println("friends list");
             }
         } finally {
             out.close();

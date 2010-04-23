@@ -5,40 +5,54 @@
 
 
 window.onload = function(){
+    currentState = {
+        mode:'rooms',
+        id:0,
+        lastMsgId:-1,
+        prevTab:undefined
+    };
+
     deselectAllTabs = function(){
         $('.tab').removeClass('selected');
     };
 
-    createNewTab = function(id,title){
-        $('#tabs ul').append('<li id="'+id+'" class="tab">'+title+' <a class="close-tab-button" href="#" onClick="closeTab(\''+id+'\')">x</a></li>');
-        $('.tab#'+id).click(function(){
-            alert('clicked');
+    createNewTab = function(mode,id,title){
+        $('#tabs ul').append('<li id="'+id+'" class="tab"><span>'+title+'</span> <a class="close-tab-button" href="#" onClick="closeTab(\''+id+'\')">x</a></li>');
+        $('#'+id+'.tab span').click(function(){
+            currentState.mode = mode;
+            currentState.id = id;
+            currentState.prevTab=$('.tab.selected');
             deselectAllTabs();
-            $(this).addClass('selected');
+            $('#'+id+'.tab').addClass('selected');
         });
     };
 
     closeTab = function(id){
-        $('.tab#'+id).remove();
+        $('#'+id+'.tab').remove();
+        deselectAllTabs();
+        currentState.prevTab.addClass('selected');
     };
 
     $('#main').load('AjaxRequestHandler','page=rooms',function(){
         deselectAllTabs();
         $('#rooms').addClass('selected');
+
     });
     
     $('#rooms').click(function(){
-        $('#main').load('AjaxRequestHandler','page=rooms',function(){
-            deselectAllTabs();
-            $('#rooms').addClass('selected');
-        });
+        currentState.mode = 'rooms';
+        currentState.prevTab=$(this);
+        deselectAllTabs();
+        $(this).addClass('selected');
+        $('#main').load('AjaxRequestHandler','page=rooms',null);
     });
 
     $('#friends').click(function(){
-        $('#main').load('AjaxRequestHandler','page=friends',function(){
-            deselectAllTabs();
-            $('#friends').addClass('selected');
-        });
+        currentState.mode = 'friends';
+        currentState.prevTab=$(this);
+        deselectAllTabs();
+        $(this).addClass('selected');
+        $('#main').load('AjaxRequestHandler','page=friends',null);
     });
 
     $('#inputline').keypress(function(e){

@@ -69,7 +69,7 @@ body {
     color:#fff;
 }
 
-.tab .close-tab-button .selected {
+.tab.selected .close-tab-button {
     color:#800;
 }
 
