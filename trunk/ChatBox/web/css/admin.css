@@ -1,0 +1,143 @@
+/* 
+    Document   : admin
+    Created on : Apr 22, 2010, 11:58:27 AM
+    Author     : Neo Enriko
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+.fakultas{
+   border-bottom: solid 1px rgb(200,200,200);
+   font-weight:normal;
+   float:left;
+   padding-bottom:15px;
+   margin-bottom:10px;
+   width:100%;
+}
+
+.newprod{
+   background:rgb(230,230,200);
+   float:right;
+   font-weight:normal;
+   padding: 5px 5px 15px 5px;
+   margin: 0 0 5px 0px;
+   width:300px;
+}
+
+.fak{
+   float:left;
+   padding-right:10px;
+   height:50px;
+   width:50px;
+   overflow:hidden;
+}
+
+.prof{
+   float: right;
+   font-size: 14px;
+   line-height: 17px;
+   margin: 10px 0 20px 0;
+   width: 300px;}
+
+.right-block{
+   background: rgb(230,230,230);
+   float:right;
+   border: solid rgb(200,200,200) 1px;
+   padding: 10px;
+   margin: 0 0 10px 0px;
+   text-align: justify;
+   width:99%;}
+
+  .right-content{
+   float: right;
+   font-size: 14px;
+   line-height: 17px;
+   margin: 10px 0 20px 0;
+   width: 500px;}
+
+   .left-content{
+   float: left;
+   font-size: 14px;
+   line-height: 17px;
+   margin: 10px 0;
+   width: 640px;}
+
+   .left-block{
+   background: rgb(230,230,230);
+   border: solid rgb(200,200,200) 1px;
+   float: left;
+   line-height: 19px;
+   margin: 0 0 10px 0;
+   min-height: 20px;
+   padding: 10px;
+   width:640px;
+    }
+
+   .nama-fakultas{
+   background:rgb(240,240,240);
+   font-size: 14px;
+   float:left;
+   width:100px;
+   border: solid rgb(200,200,200) 1px;
+   }
+
+.hapus-fak{
+    float:right;
+}
+
+.prodi-list{
+   font-size: 14px;
+   float:right;
+   width:380px;
+   border: solid rgb(200,200,200) 1px;
+}
+
+.prodi{
+   background:rgb(230,230,200);
+   float:left;
+   font-weight:normal;
+   padding: 5px 5px 5px 5px;
+   margin: 5px 5px 5px 5px;
+   width:360px;
+}
+
+.hapus-prodi{
+   float:right;
+}
+
+#top{
+   background: rgb(230,230,230);
+   float:left;
+   border: solid 1px rgb(220,220,220);
+   -webkit-box-shadow:0 5px 5px rgb(200,200,200);
+   -moz-box-shadow:0 5px 5px rgb(220,220,220);
+   font-size: 13px;
+   line-height: 17px;
+   margin: 5px auto 0 auto;
+   min-height:10px;
+   text-align:right;
+   padding: 5px 0px 5px 0px;
+   width: 100%;}
+
+   .topblock{
+   margin: 0 auto;
+   width: 960px;}
+
+   .menu{
+   font-size:22px;
+   font-weight:bold;
+   float:left;
+   margin: 2px 0 0 0px ;
+   width:550px;
+    }
+
+}
