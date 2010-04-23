@@ -26,7 +26,8 @@ public class User {
             ResultSet rs;
             Database.getInstance().connect();
             String sql = "SELECT nama FROM user WHERE iduser = '" + uid + "'";
-            rs = Database.getInstance().stmt.executeQuery(sql);
+            Statement stmt = Database.getInstance().con.createStatement();
+            rs = stmt.executeQuery(sql);
             while(rs.next())
                 this.userName = rs.getString("nama");
             Database.getInstance().close();

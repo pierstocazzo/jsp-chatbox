@@ -15,8 +15,6 @@ import java.util.logging.Logger;
  */
 public class Database {
     private static Database instance = null;
-    public Statement stmt;
-    public ResultSet rs;
     public Connection con;
     private String url;
 
@@ -40,7 +38,6 @@ public class Database {
     public void connect(){
         try {
             this.con = DriverManager.getConnection(this.url, "zaniar", "zaniar");
-            this.stmt = con.createStatement();
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }

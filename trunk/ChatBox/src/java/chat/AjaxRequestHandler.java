@@ -8,6 +8,10 @@ package chat;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.Iterator;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,15 +35,18 @@ public class AjaxRequestHandler extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String page = request.getParameter("page");
+        String mode = request.getParameter("mode");
 
         PrintWriter out = response.getWriter();
         try{
-            if(page.equals("rooms")){
-                out.println("rooms list");
+            if(mode.equals("rooms")){
+                Rooms.getInstance().create("Room1", 1, 1, 2);
+                this.getRoomList(request,response);
             }
-            if(page.equals("friends")){
+            if(mode.equals("friends")){
                 out.println("friends list");
+            }
+            if(mode.equals("cmd")){
             }
         } finally {
             out.close();
@@ -82,13 +89,37 @@ public class AjaxRequestHandler extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void openDbConnection(){
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/chatbox";
-            this.conn = DriverManager.getConnection(url,"zaniar","zaniar");
-            this.stmt = this.conn.createStatement();
-        } catch(Exception e){
+    private void getRoomList(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        try {
+            Database.getInstance().connect();
+            String sql = "SELECT * FROM fakprod WHERE parent = 0";
+            Statement stmt = Database.getInstance().con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            out.println("<h2>Room List</h2>");
+            while(rs.next()){
+                String fname = rs.getString("nama");
+                out.println("<div class=\"fakultas\">"+fname+"</div>");
+                sql = "SELECT * FROM fakprod WHERE parent = "+rs.getInt("id");
+                Statement stmt2 = Database.getInstance().con.createStatement();
+                ResultSet rs2 = stmt2.executeQuery(sql);
+                while(rs2.next()){
+                    String pname = rs2.getString("nama");
+                    out.println("<div class=\"prodi\">"+pname+"</div>");
+                    Vector<Room> vr = Rooms.getInstance().getByProdiId(rs2.getInt("id"));
+                    Iterator<Room> vri = vr.iterator();
+                    Room r;
+                    while(vri.hasNext()){
+                        r = vri.next();
+                        out.println("<div class=\"prodi-room\">"+r.name+"</div>");
+                    }
+                }
+            }
+        } catch (Exception ex) {
+        } finally {
+            Database.getInstance().close();
+            out.close();
         }
     }
 
