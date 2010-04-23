@@ -99,3 +99,8 @@ body {
 .prodi-room {
     margin-left:40px;
 }
+
+h2 {
+    padding:0;
+    margin:10px 0 0 0;
+}

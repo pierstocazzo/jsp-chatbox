@@ -6,7 +6,7 @@
 
 window.onload = function(){
     currentState = {
-        mode:'rooms',
+        tab:'rooms',
         id:0,
         lastMsgId:-1,
         prevTab:undefined
@@ -16,15 +16,18 @@ window.onload = function(){
         $('.tab').removeClass('selected');
     };
 
-    createNewTab = function(mode,id,title){
+    createNewTab = function(tab,id,title){
         $('#tabs ul').append('<li id="'+id+'" class="tab"><span>'+title+'</span> <a class="close-tab-button" href="#" onClick="closeTab(\''+id+'\')">x</a></li>');
         $('#'+id+'.tab span').click(function(){
-            currentState.mode = mode;
+            currentState.tab = tab;
             currentState.id = id;
             currentState.prevTab=$('.tab.selected');
             deselectAllTabs();
             $('#'+id+'.tab').addClass('selected');
         });
+    };
+
+    createNewRoomTab = function(){
     };
 
     closeTab = function(id){
@@ -33,30 +36,73 @@ window.onload = function(){
         currentState.prevTab.addClass('selected');
     };
 
-    $('#main').load('AjaxRequestHandler','mode=rooms',function(){
+    $('#main').load('AjaxRequestHandler','tab=rooms',function(){
         deselectAllTabs();
         $('#rooms').addClass('selected');
 
     });
-    
+
+    refreshRoom = function(){
+        $('#main').load('AjaxRequestHandler','tab=rooms',null);
+    };
+
+    refreshFriend = function(mode){
+        $('#main').load('AjaxRequestHandler','tab=friends&view='+mode,null);
+    }
+
     $('#rooms').click(function(){
-        currentState.mode = 'rooms';
+        currentState.tab = 'rooms';
         currentState.prevTab=$(this);
         deselectAllTabs();
         $(this).addClass('selected');
-        $('#main').load('AjaxRequestHandler','mode=rooms',null);
+        $('#main').load('AjaxRequestHandler','tab=rooms',null);
     });
 
     $('#friends').click(function(){
-        currentState.mode = 'friends';
+        currentState.tab = 'friends';
         currentState.prevTab=$(this);
         deselectAllTabs();
         $(this).addClass('selected');
-        $('#main').load('AjaxRequestHandler','mode=friends',null);
+        $('#main').load('AjaxRequestHandler','tab=friends&view=all',null);
     });
 
     $('#inputline').keypress(function(e){
         if(e.which == 13) {
+            if(/^\/create [A-Za-z0-9]+$/.test($(this).val())){
+                param = $(this).val().split(" ");
+                $.post('AjaxRequestHandler','act=create&roomname='+param[1],function(data){
+                    alert(data);
+                });
+            } else if(/^\/create [A-Za-z0-9]+ [0-9]+$/.test($(this).val())){
+                param = $(this).val().split(" ");
+                $.post('AjaxRequestHandler','act=create&roomname='+param[1]+'&kode='+param[2],function(data){
+                    alert(data);
+                });
+            } else if(/^\/join [A-Za-z0-9]+$/.test($(this).val())){
+
+            } else if(/^\/chat [A-Za-z0-9]+$/.test($(this).val())){
+
+            } else if(/^\/join [A-Za-z0-9]+$/.test($(this).val())){
+
+            } else if(/^\/addfriend [A-Za-z0-9]+$/.test($(this).val())){
+
+            } else if(/^\/exit$/.test($(this).val())){
+
+            } else if(/^\/info [A-Za-z0-9]+$/.test($(this).val())){
+
+            } else if(/^\/kick [A-Za-z0-9]+$/.test($(this).val())){
+
+            } else if(/^\/ban [A-Za-z0-9]+$/.test($(this).val())){
+
+            } else if(/^\/unban [A-Za-z0-9]+$/.test($(this).val())){
+
+            } else if(/^\/persist$/.test($(this).val())){
+
+            } else if(/^\/temp$/.test($(this).val())){
+
+            } else if(/^\/setowner [A-Za-z0-9]+$/.test($(this).val())){
+
+            }
             $(this).val('');
         }
     });

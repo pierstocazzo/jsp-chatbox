@@ -12,10 +12,13 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 
 /**
  *
@@ -25,7 +28,8 @@ public class AjaxRequestHandler extends HttpServlet {
     private Statement stmt;
     private ResultSet rs;
     private Connection conn;
-   
+    private Rooms rooms;
+
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -35,19 +39,31 @@ public class AjaxRequestHandler extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String mode = request.getParameter("mode");
+        String tab = request.getParameter("tab");
+        String act = request.getParameter("act");
+        Integer userId = (Integer) request.getSession().getAttribute("uid");
+
+        this.rooms = (Rooms) getServletContext().getAttribute("Rooms");
 
         PrintWriter out = response.getWriter();
         try{
-            if(mode.equals("rooms")){
-                Rooms.getInstance().create("Room1", 1, 1, 2);
+            if(tab.equals("rooms")){
                 this.getRoomList(request,response);
+            } else if(tab.equals("friends")){
+                this.getFriendList(request,response);
             }
-            if(mode.equals("friends")){
-                out.println("friends list");
+
+            if(act.equals("create")){
+                String roomname = request.getParameter("roomname");
+                String kode = request.getParameter("kode");
+
+                if(kode == null){
+
+                } else {
+                    this.rooms.create("roomname", userId, Integer.parseInt(kode));
+                }
             }
-            if(mode.equals("cmd")){
-            }
+        } catch (Exception ex) {
         } finally {
             out.close();
         }
@@ -91,29 +107,43 @@ public class AjaxRequestHandler extends HttpServlet {
 
     private void getRoomList(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        Integer userId = (Integer) request.getSession().getAttribute("uid");
         PrintWriter out = response.getWriter();
+  
         try {
             Database.getInstance().connect();
             String sql = "SELECT * FROM fakprod WHERE parent = 0";
             Statement stmt = Database.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             out.println("<h2>Room List</h2>");
+            out.println("<div><a href=\"#\" onclick=\"refreshRoom()\">refresh</a></div>");
             while(rs.next()){
                 String fname = rs.getString("nama");
                 out.println("<div class=\"fakultas\">"+fname+"</div>");
+                /*
+                Vector<Room> vr = this.rooms.getByKode(rs.getInt("id"));
+                Iterator<Room> vri = vr.iterator();
+                Room r;
+                while(vri.hasNext()){
+                    r = vri.next();
+                    out.println("<div class=\"fakultas-room\">"+r.name+"</div>");
+                }
+                */
                 sql = "SELECT * FROM fakprod WHERE parent = "+rs.getInt("id");
                 Statement stmt2 = Database.getInstance().con.createStatement();
                 ResultSet rs2 = stmt2.executeQuery(sql);
                 while(rs2.next()){
                     String pname = rs2.getString("nama");
                     out.println("<div class=\"prodi\">"+pname+"</div>");
-                    Vector<Room> vr = Rooms.getInstance().getByProdiId(rs2.getInt("id"));
-                    Iterator<Room> vri = vr.iterator();
-                    Room r;
-                    while(vri.hasNext()){
-                        r = vri.next();
-                        out.println("<div class=\"prodi-room\">"+r.name+"</div>");
+                    /*
+                    Vector<Room> vr2 = this.rooms.getByKode(rs2.getInt("id"));
+                    Iterator<Room> vri2 = vr2.iterator();
+                    Room r2;
+                    while(vri2.hasNext()){
+                        r2 = vri2.next();
+                        out.println("<div class=\"prodi-room\">"+r2.name+"</div>");
                     }
+                    */
                 }
             }
         } catch (Exception ex) {
@@ -123,4 +153,33 @@ public class AjaxRequestHandler extends HttpServlet {
         }
     }
 
+    private void getFriendList(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        Integer userId = (Integer) request.getSession().getAttribute("uid");
+        PrintWriter out = response.getWriter();
+        String view = request.getParameter("view");
+
+        try {
+            Database.getInstance().connect();
+            String sql;
+            if(view.equals("online")){
+                sql = "SELECT * FROM user,friend WHERE friend.friend = user.iduser AND friend.id_user = "+userId+" AND user.active = 1";
+            } else {
+                sql = "SELECT * FROM user,friend WHERE friend.friend = user.iduser AND friend.id_user = "+userId;
+            }
+            Statement stmt = Database.getInstance().con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            out.println("<h2>Friend List</h2>");
+            out.println("<a href=\"#\" onclick=\"refreshFriend('all')\">all</a>");
+            out.println("<a href=\"#\" onclick=\"refreshFriend('online')\">online</a>");
+            while(rs.next()){
+                String fname = rs.getString("nama");
+                out.println("<div>"+fname+"</div>");
+            }
+        } catch (Exception ex) {
+        } finally {
+            Database.getInstance().close();
+            out.close();
+        }
+    }
 }
