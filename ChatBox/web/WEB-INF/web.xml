@@ -4,20 +4,36 @@
         <listener-class>chat.MyServletContextListener</listener-class>
     </listener>
     <servlet>
-        <servlet-name>AdminLogin</servlet-name>
-        <servlet-class>admin.AdminLogin</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>AjaxRequestHandler</servlet-name>
         <servlet-class>chat.AjaxRequestHandler</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminLogin</servlet-name>
-        <url-pattern>/AdminLogin</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>login.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>login.Register</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>login.Logout</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AjaxRequestHandler</servlet-name>
         <url-pattern>/AjaxRequestHandler</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -26,5 +42,5 @@
     </session-config>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
-        </welcome-file-list>
-    </web-app>
+    </welcome-file-list>
+</web-app>

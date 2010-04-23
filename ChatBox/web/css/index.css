@@ -1,0 +1,75 @@
+.login{
+   background: #600;
+   float:left;
+   border: solid 1px rgb(220,220,220);
+   -webkit-box-shadow:0 5px 5px rgb(200,200,200);
+   -moz-box-shadow:0 5px 5px rgb(220,220,220);
+   font-size: 14px;
+   line-height: 70px;
+   margin: 30px 0 0 60px;
+   min-height:10px;
+   text-align:right;
+   padding: 0px 0px 5px 0px;
+   width: 90%;
+   color:white;
+   font-family:sans-serif;
+}
+
+.button{
+    margin:5px 15px 0px 0px;
+}
+
+#title{
+    margin:0px 0px 0px 20px;
+    float:left;
+    font-family:sans-serif;
+    font-size:45px;
+}
+
+.register{
+   background: rgb(220,60,40);
+   float:left;
+   border: solid 1px rgb(220,220,220);
+   -webkit-box-shadow:0 5px 5px rgb(200,200,200);
+   -moz-box-shadow:0 5px 5px rgb(220,220,220);
+   font-size: 14px;
+   line-height: 35px;
+   margin: 0px 0 0 60px;
+   min-height:10px;
+   text-align:left;
+   padding: 0px 0px 5px 0px;
+   width: 90%;
+   color:white;
+   font-family:sans-serif;
+}
+
+.register h1{
+    margin: 10px 0px 10px 20px;
+ }
+
+.register form label{
+    float:left;
+    text-align:left;
+    margin:0 20px 0 0px;
+    width:100px;
+    font-family:sans-serif;
+    padding: 0 0 0 20px;
+    }
+
+.register input {
+    float:right;
+    width: 200px;
+    margin: 0 750px 0px 0px;
+  }
+
+  .register select {
+      float:right;
+      width: 300px;
+      margin: 0 655px 0px 0px;
+    }
+
+.register .button {
+     float:left;
+     width:80px;
+     margin: 30px 0px 30px 40px;
+   }
