@@ -44,13 +44,15 @@ QueryObject.prototype.append = function(content){
             container.innerHTML = content;
             temp = container.childNodes;
             for(t in temp){
-                this.elmts[i].appendChild(temp.item(0));
+                if(this.elmts[i] instanceof Element && temp.item(t) instanceof Element)
+                    this.elmts[i].appendChild(temp.item(t));
             }
         }
     } else if(content instanceof QueryObject){
         for(i in this.elmts){
             for(j in content.elmts){
-                this.elmts[i].appendChild(content.elmts[j])
+                if(this.elmts[i] instanceof Element && content.elmts(j) instanceof Element)
+                    this.elmts[i].appendChild(content.elmts[j])
             }
         }
     } else if(content instanceof Element){
@@ -118,7 +120,11 @@ QueryObject.prototype.removeClass = function(String){
 // Event Handling
 QueryObject.prototype.click = function(fn){
     for(i in this.elmts){
-        this.elmts[i].onclick = fn;
+        if(!!fn)
+            this.elmts[i].onclick = fn;
+        else
+            if(this.elmts[i].onclick)
+                this.elmts[i].onclick();
     }
 
     return this;
@@ -147,8 +153,10 @@ $.ajax = function(options){
         xmlhttp = new XMLHttpRequest();
 
         xmlhttp.onload = function(){
-            options.success(xmlhttp.responseText, xmlhttp.statusText);
-            options.complete(xmlhttp.responseText, xmlhttp.statusText);
+            if(!!options.success)
+                options.success(xmlhttp.responseText, xmlhttp.statusText);
+            if(!!options.complete)
+                options.complete(xmlhttp.responseText, xmlhttp.statusText);
         };
         
         xmlhttp.open(options.type,options.url,true);
@@ -165,9 +173,11 @@ $.post = function(url,data,callback,type){
         url:url,
         type:"POST",
         data:data,
-        success:callback,
         dataType:type
     };
+
+    if(!!callback)
+        opt.complete = callback(data,status);
 
     return $.ajax(opt);
 }
@@ -182,9 +192,11 @@ QueryObject.prototype.load = function(url,data,callback){
         success:function(data, status) {
             o.html(data);
         },
-        complete:callback(data,status),
         dataType:'html'
     };
+
+    if(!!callback)
+        opt.complete = callback(data,status);
 
     $.ajax(opt)
 
