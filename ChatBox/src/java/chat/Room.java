@@ -15,18 +15,16 @@ public class Room {
     public String name;
     public int ownerId;
     public String ownerName;
-    public int fakultasId;
-    public int prodiId;
+    public int kode;
     public boolean persistence;
     public Vector<User> users;
     public Vector<Integer> bannedUsers;
     public Vector<Message> message;
 
-    public Room(String n, int oid, int fid, int pid){
+    public Room(String n, int oid, int k){
         this.name = n;
         this.ownerId = oid;
-        this.fakultasId = fid;
-        this.prodiId = pid;
+        this.kode = k;
     }
     
     public void join(int uid){

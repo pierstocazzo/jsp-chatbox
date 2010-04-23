@@ -12,19 +12,10 @@ import java.util.*;
  * @author zaniar
  */
 public class Rooms {
-    private static Rooms instance = null;
     public Vector<Room> rooms;
 
-    private Rooms(){
+    public Rooms(){
         this.rooms = new Vector<Room>();
-    }
-
-    public static Rooms getInstance(){
-        if(instance == null) {
-            instance = new Rooms();
-        }
-
-        return instance;
     }
 
     public boolean isExist(String name){
@@ -55,9 +46,9 @@ public class Rooms {
         return idx;
     }
 
-    public void create(String name, int oid, int fid, int pid){
+    public void create(String name, int oid, int kode){
         if(!this.isExist(name)){
-            this.rooms.add(new Room(name,oid,fid,pid));
+            this.rooms.add(new Room(name,oid,kode));
         }
     }
 
@@ -74,29 +65,14 @@ public class Rooms {
         }
     }
 
-    public Vector<Room> getByFakultasId(int fid){
+    public Vector<Room> getByKode(int kd){
         Vector<Room> ret = new Vector<Room>();
         Iterator<Room> i = this.rooms.iterator();
         Room r;
 
         while(i.hasNext()){
             r = i.next();
-            if(r.fakultasId == fid){
-                ret.add(r);
-            }
-        }
-
-        return ret;
-    }
-
-    public Vector<Room> getByProdiId(int pid){
-        Vector<Room> ret = new Vector<Room>();
-        Iterator<Room> i = this.rooms.iterator();
-        Room r;
-
-        while(i.hasNext()){
-            r = i.next();
-            if(r.prodiId == pid){
+            if(r.kode == kd){
                 ret.add(r);
             }
         }

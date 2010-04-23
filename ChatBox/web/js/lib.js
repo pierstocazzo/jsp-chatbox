@@ -31,8 +31,15 @@ QueryObject.prototype.html = function(html){
 };
 
 QueryObject.prototype.val = function(val){
-    for(i in this.elmts){
-        this.elmts[i].value = val;
+    if(val != null){
+        for(i in this.elmts){
+            this.elmts[i].value = val;
+        }
+        return this;
+    } else {
+        for(i in this.elmts){
+            return this.elmts[i].value;
+        }
     }
 };
 
@@ -58,6 +65,33 @@ QueryObject.prototype.append = function(content){
     } else if(content instanceof Element){
         for(i in this.elmts){
             this.elmts[i].appendChild(content);
+        }
+    }
+    return this;
+};
+
+// Inserting Outside
+QueryObject.prototype.after = function(content){
+    if(typeof content == 'string'){
+        for(i in this.elmts){
+            container = document.createElement("div");
+            container.innerHTML = content;
+            temp = container.childNodes;
+            for(t = temp.length-1; t >= 0; t--){
+                if(this.elmts[i] instanceof Element && temp.item(t) instanceof Element)
+                    this.elmts[i].parentNode.insertBefore(temp.item(t),this.elmts[i].nextSibling);
+            }
+        }
+    } else if(content instanceof QueryObject){
+        for(i in this.elmts){
+            for(j = content.elmts.length; j >= 0; t--){
+                if(this.elmts[i] instanceof Element && content.elmts(j) instanceof Element)
+                    this.elmts[i].parentNode.insertBefore(content.elmts[j],this.elmts[i].nextSibling)
+            }
+        }
+    } else if(content instanceof Element){
+        for(i in this.elmts){
+            this.elmts[i].parentNode.insertBefore(content,this.elmts[i].nextSibling);
         }
     }
     return this;
@@ -177,7 +211,7 @@ $.post = function(url,data,callback,type){
     };
 
     if(!!callback)
-        opt.complete = callback(data,status);
+        opt.complete = callback;
 
     return $.ajax(opt);
 }
@@ -196,7 +230,7 @@ QueryObject.prototype.load = function(url,data,callback){
     };
 
     if(!!callback)
-        opt.complete = callback(data,status);
+        opt.complete = callback;
 
     $.ajax(opt)
 
