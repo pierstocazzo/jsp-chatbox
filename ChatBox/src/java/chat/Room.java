@@ -34,6 +34,8 @@ public class Room {
     }
 
     public void kick(int uid){
+        int idx = this.userIndex(uid);
+        this.users.removeElementAt(idx);
     }
 
     public int userIndex(int uid){
@@ -49,5 +51,10 @@ public class Room {
         }
 
         return idx;
+    }
+
+    public void ban(int uid){
+        this.bannedUsers.add(uid);
+        this.kick(uid);
     }
 }

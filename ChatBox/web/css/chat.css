@@ -76,6 +76,7 @@ body {
 #main {
     height:300px;
     margin:2px 5px;
+    overflow:scroll;
 }
 
 #input {
@@ -89,4 +90,12 @@ body {
     background:#fff;
     border:1px solid #444;
     margin:5px 5%;
+}
+
+.prodi {
+    margin-left:20px;
+}
+
+.prodi-room {
+    margin-left:40px;
 }

@@ -33,7 +33,7 @@ window.onload = function(){
         currentState.prevTab.addClass('selected');
     };
 
-    $('#main').load('AjaxRequestHandler','page=rooms',function(){
+    $('#main').load('AjaxRequestHandler','mode=rooms',function(){
         deselectAllTabs();
         $('#rooms').addClass('selected');
 
@@ -44,7 +44,7 @@ window.onload = function(){
         currentState.prevTab=$(this);
         deselectAllTabs();
         $(this).addClass('selected');
-        $('#main').load('AjaxRequestHandler','page=rooms',null);
+        $('#main').load('AjaxRequestHandler','mode=rooms',null);
     });
 
     $('#friends').click(function(){
@@ -52,7 +52,7 @@ window.onload = function(){
         currentState.prevTab=$(this);
         deselectAllTabs();
         $(this).addClass('selected');
-        $('#main').load('AjaxRequestHandler','page=friends',null);
+        $('#main').load('AjaxRequestHandler','mode=friends',null);
     });
 
     $('#inputline').keypress(function(e){
