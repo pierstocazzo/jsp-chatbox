@@ -22,7 +22,6 @@ window.onload = function(){
         $('#'+id+'.tab span').click(function(){
             currentState.tab = tab;
             currentState.id = id;
-            currentState.prevTab=$('.tab.selected');
             deselectAllTabs();
             $('#'+id+'.tab').addClass('selected');
         });
@@ -39,7 +38,9 @@ window.onload = function(){
     };
 
     closeTab = function(id){
-        currentState.prevTab.click();
+        $('#'+id+'.tab').remove();
+        $('#rooms').click();
+        $('#rooms').addClass('selected');
     };
 
     $('#main').load('AjaxRequestHandler','tab=rooms',function(){
@@ -58,7 +59,6 @@ window.onload = function(){
 
     $('#rooms').click(function(){
         currentState.tab = 'rooms';
-        currentState.prevTab=$(this);
         deselectAllTabs();
         $(this).addClass('selected');
         $('#main').load('AjaxRequestHandler','tab=rooms',null);
@@ -66,7 +66,6 @@ window.onload = function(){
 
     $('#friends').click(function(){
         currentState.tab = 'friends';
-        currentState.prevTab=$(this);
         deselectAllTabs();
         $(this).addClass('selected');
         $('#main').load('AjaxRequestHandler','tab=friends&view=all',null);

@@ -57,6 +57,10 @@ public class AjaxRequestHandler extends HttpServlet {
                 this.getRoomList(request,response);
             } else if(tab.equals("friends")){
                 this.getFriendList(request,response);
+            } else if(tab.equals("room")){
+                
+            } else if(tab.equals("chat")){
+                
             }
         }
 
@@ -77,11 +81,7 @@ public class AjaxRequestHandler extends HttpServlet {
                 }
             }
             if(act.equals("join")){
-                String namaroom = request.getParameter("roomname");
-                try{
-
-                } catch (Exception x){
-                }
+                this.rooms.getRoom(roomname).join(userId);
             }
 
             if(act.equals("chat")){
@@ -89,7 +89,7 @@ public class AjaxRequestHandler extends HttpServlet {
             }
 
             if(act.equals("addfriend")){
-            
+                this.makeAFriend(userId,friendname);
             }
 
             if(act.equals("exit")){
@@ -237,6 +237,19 @@ public class AjaxRequestHandler extends HttpServlet {
         } catch (Exception ex) {
         } finally {
             out.close();
+        }
+    }
+
+    private void makeAFriend(Integer meId, String he) {
+        try {
+            Statement stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT iduser FROM user WHERE username = '" + he +"'");
+            rs.first();
+            int heId = rs.getInt("iduser");
+
+            stmt.executeUpdate("INSERT INTO friend (id_user, friend) VALUES ("+meId+","+heId+")");
+        } catch (SQLException ex) {
+            Logger.getLogger(AjaxRequestHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
