@@ -21,24 +21,14 @@ import javax.servlet.ServletContextListener;
 public class MyServletContextListener implements ServletContextListener{
     public void contextInitialized(ServletContextEvent event)
     {
-        try {
-            ServletContext sc = event.getServletContext();
-            Rooms r = new Rooms();
-            Chats c = new Chats();
+        ServletContext sc = event.getServletContext();
+        Rooms r = new Rooms();
+        Chats c = new Chats();
 
-            sc.setAttribute("Rooms", r);
-            sc.setAttribute("Chats", c);
+        sc.setAttribute("Rooms", r);
+        sc.setAttribute("Chats", c);
 
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/chatbox";
-            Connection con = DriverManager.getConnection(url, "zaniar", "zaniar");
-
-            sc.setAttribute("Connection", con);
-        } catch (SQLException ex) {
-            Logger.getLogger(MyServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MyServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        sc.setAttribute("Connection", Database.getInstance().con);
     }
     
     public void contextDestroyed(ServletContextEvent event)
