@@ -68,7 +68,7 @@ window.onload = function(){
 
     $('#inputline').keypress(function(e){
         if(e.which == 13) {
-            if(/^\/create [A-Za-z0-9]+ [0-9]*$/.test($(this).val())){
+            if(/^\/create [A-Za-z0-9]+( [0-9]*)?$/.test($(this).val())){
                 param = $(this).val().split(" ");
                 $.post('AjaxRequestHandler','act=create&roomname='+param[1]+'&kode='+param[2],function(data){
                     if(currentState.tab == 'rooms'){

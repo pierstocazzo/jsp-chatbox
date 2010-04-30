@@ -65,9 +65,9 @@ public class AjaxRequestHandler extends HttpServlet {
                 if(role == 1){
                     try {
                         Statement stmt = this.conn.createStatement();
-                        ResultSet rs = stmt.executeQuery("SELECT role FROM user WHERE iduser = " + userId);
+                        ResultSet rs = stmt.executeQuery("SELECT id_prodi FROM user WHERE iduser = " + userId);
                         rs.first();
-                        int kodep = rs.getInt("role");
+                        int kodep = rs.getInt("id_prodi");
                         this.rooms.create(roomname, userId, kodep);
                     } catch (SQLException ex) {
                         Logger.getLogger(AjaxRequestHandler.class.getName()).log(Level.SEVERE, null, ex);
