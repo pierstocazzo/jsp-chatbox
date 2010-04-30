@@ -90,7 +90,15 @@ window.onload = function(){
                    } 
                 });
             } else if(/^\/exit$/.test($(this).val())){
-
+                param = currentState.id.split('-');
+                if(currentState.tab == 'room'){
+                    type = 'roomname='+param[1];
+                } else if(currentState.tab == 'chat'){
+                    type = 'friendname='+param[1];
+                }
+                $.post('AjaxRequestHandler', 'act=exit&'+type, function(data){
+                    
+                });
             } else if(/^\/info [A-Za-z0-9]+$/.test($(this).val())){
 
             } else if(/^\/kick [A-Za-z0-9]+$/.test($(this).val())){

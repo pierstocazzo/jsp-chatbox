@@ -93,7 +93,11 @@ public class AjaxRequestHandler extends HttpServlet {
             }
 
             if(act.equals("exit")){
-
+                if(roomname != null){
+                    this.rooms.exit(roomname);
+                } else if(friendname != null){
+                    
+                }
             }
 
             if(act.equals("info")){
