@@ -55,4 +55,5 @@ public class Room {
         this.bannedUsers.add(uid);
         this.kick(uid);
     }
+
 }
