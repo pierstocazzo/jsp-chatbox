@@ -51,7 +51,7 @@
                         ResultSet rs1,rs2;
                         Class.forName("com.mysql.jdbc.Driver");
                         String url = "jdbc:mysql://localhost:3306/chatbox";
-                        Connection con = DriverManager.getConnection(url,"zaniar","zaniar");
+                        Connection con = DriverManager.getConnection(url,"root","root");
                         stmt = con.createStatement();
                         rs1 = stmt.executeQuery("SELECT * FROM fakprod WHERE tipe = 0");
 

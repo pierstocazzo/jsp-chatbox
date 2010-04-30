@@ -76,6 +76,53 @@ public class AjaxRequestHandler extends HttpServlet {
                     this.rooms.create(roomname, userId, Integer.parseInt(kode));
                 }
             }
+            if(act.equals("join")){
+                String namaroom = request.getParameter("roomname");
+                try{
+
+                } catch (Exception x){
+                }
+            }
+
+            if(act.equals("chat")){
+
+            }
+
+            if(act.equals("addfriend")){
+            
+            }
+
+            if(act.equals("exit")){
+
+            }
+
+            if(act.equals("info")){
+
+            }
+
+            if(act.equals("kick")){
+
+            }
+
+            if(act.equals("ban")){
+
+            }
+
+            if(act.equals("unban")){
+
+            }
+
+            if(act.equals("persist")){
+
+            }
+
+            if(act.equals("temp")){
+
+            }
+
+            if(act.equals("setowner")){
+            
+            }
         }
 
         out.close();
