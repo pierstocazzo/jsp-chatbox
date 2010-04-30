@@ -38,7 +38,7 @@
             ResultSet rsfak, rsprod;
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/chatbox";
-            Connection con = DriverManager.getConnection(url, "zaniar", "zaniar");
+            Connection con = DriverManager.getConnection(url, "root", "");
             if(!con.isClosed())
             {
                 if (request.getParameter("newfak")!=null)
@@ -119,7 +119,7 @@
                     ResultSet data;
                     Class.forName("com.mysql.jdbc.Driver");
                     String url = "jdbc:mysql://localhost:3306/chatbox";
-                    Connection con = DriverManager.getConnection(url, "zaniar", "zaniar");
+                    Connection con = DriverManager.getConnection(url, "root", "");
                     if(!con.isClosed())
                     {
                         if (request.getParameter("user")!=null){

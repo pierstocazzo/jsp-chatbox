@@ -25,10 +25,9 @@ import javax.servlet.jsp.PageContext;
  * @author zaniar
  */
 public class AjaxRequestHandler extends HttpServlet {
-    private Statement stmt;
-    private ResultSet rs;
     private Connection conn;
     private Rooms rooms;
+    private Chats chats;
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -43,8 +42,12 @@ public class AjaxRequestHandler extends HttpServlet {
         String act = request.getParameter("act");
         Integer userId = (Integer) request.getSession().getAttribute("uid");
         Integer role = (Integer) request.getSession().getAttribute("role");
+        String roomname = request.getParameter("roomname");
+        String friendname = request.getParameter("friendname");
+        String kode = request.getParameter("kode");
 
         this.rooms = (Rooms) getServletContext().getAttribute("Rooms");
+        this.chats = (Chats) getServletContext().getAttribute("Chats");
         this.conn = (Connection) getServletContext().getAttribute("Connection");
 
         PrintWriter out = response.getWriter();
@@ -59,12 +62,17 @@ public class AjaxRequestHandler extends HttpServlet {
 
         if(act != null) {
             if(act.equals("create")){
-                String roomname = request.getParameter("roomname");
-                String kode = request.getParameter("kode");
-
-                if(kode == null){
-
-                } else {
+                if(role == 1){
+                    try {
+                        Statement stmt = this.conn.createStatement();
+                        ResultSet rs = stmt.executeQuery("SELECT role FROM user WHERE iduser = " + userId);
+                        rs.first();
+                        int kodep = rs.getInt("role");
+                        this.rooms.create(roomname, userId, kodep);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AjaxRequestHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else if(role == 2){
                     this.rooms.create(roomname, userId, Integer.parseInt(kode));
                 }
             }

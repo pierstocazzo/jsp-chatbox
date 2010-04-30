@@ -68,14 +68,7 @@ window.onload = function(){
 
     $('#inputline').keypress(function(e){
         if(e.which == 13) {
-            if(/^\/create [A-Za-z0-9]+$/.test($(this).val())){
-                param = $(this).val().split(" ");
-                $.post('AjaxRequestHandler','act=create&roomname='+param[1],function(data){
-                    if(currentState.tab == 'rooms'){
-                        refreshRoom();
-                    }
-                });
-            } else if(/^\/create [A-Za-z0-9]+ [0-9]+$/.test($(this).val())){
+            if(/^\/create [A-Za-z0-9]+ [0-9]*$/.test($(this).val())){
                 param = $(this).val().split(" ");
                 $.post('AjaxRequestHandler','act=create&roomname='+param[1]+'&kode='+param[2],function(data){
                     if(currentState.tab == 'rooms'){
@@ -86,10 +79,13 @@ window.onload = function(){
 
             } else if(/^\/chat [A-Za-z0-9]+$/.test($(this).val())){
 
-            } else if(/^\/join [A-Za-z0-9]+$/.test($(this).val())){
-
             } else if(/^\/addfriend [A-Za-z0-9]+$/.test($(this).val())){
-
+                param = $(this).val().split(" ");
+                $.post('AjaxRequestHandler','act=addfriend&friendname='+param[1],function(data){
+                   if(currentState.tab == 'friends'){
+                       refreshFriend();
+                   } 
+                });
             } else if(/^\/exit$/.test($(this).val())){
 
             } else if(/^\/info [A-Za-z0-9]+$/.test($(this).val())){
