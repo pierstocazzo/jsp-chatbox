@@ -42,17 +42,22 @@ public class AjaxRequestHandler extends HttpServlet {
         String tab = request.getParameter("tab");
         String act = request.getParameter("act");
         Integer userId = (Integer) request.getSession().getAttribute("uid");
+        Integer role = (Integer) request.getSession().getAttribute("role");
 
         this.rooms = (Rooms) getServletContext().getAttribute("Rooms");
+        this.conn = (Connection) getServletContext().getAttribute("Connection");
 
         PrintWriter out = response.getWriter();
-        try{
+
+        if(tab != null) {
             if(tab.equals("rooms")){
                 this.getRoomList(request,response);
             } else if(tab.equals("friends")){
                 this.getFriendList(request,response);
             }
+        }
 
+        if(act != null) {
             if(act.equals("create")){
                 String roomname = request.getParameter("roomname");
                 String kode = request.getParameter("kode");
@@ -60,13 +65,12 @@ public class AjaxRequestHandler extends HttpServlet {
                 if(kode == null){
 
                 } else {
-                    this.rooms.create("roomname", userId, Integer.parseInt(kode));
+                    this.rooms.create(roomname, userId, Integer.parseInt(kode));
                 }
             }
-        } catch (Exception ex) {
-        } finally {
-            out.close();
         }
+
+        out.close();
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -111,44 +115,44 @@ public class AjaxRequestHandler extends HttpServlet {
         PrintWriter out = response.getWriter();
   
         try {
-            Database.getInstance().connect();
             String sql = "SELECT * FROM fakprod WHERE parent = 0";
-            Statement stmt = Database.getInstance().con.createStatement();
+            Statement stmt = this.conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             out.println("<h2>Room List</h2>");
             out.println("<div><a href=\"#\" onclick=\"refreshRoom()\">refresh</a></div>");
             while(rs.next()){
+                int fid = rs.getInt("id");
                 String fname = rs.getString("nama");
-                out.println("<div class=\"fakultas\">"+fname+"</div>");
-                /*
+                out.println("<div class=\"fakultas\">("+fid+") "+fname+"</div>");
+                
                 Vector<Room> vr = this.rooms.getByKode(rs.getInt("id"));
                 Iterator<Room> vri = vr.iterator();
                 Room r;
                 while(vri.hasNext()){
                     r = vri.next();
-                    out.println("<div class=\"fakultas-room\">"+r.name+"</div>");
+                    out.println("<div class=\"fakultas-room\">#"+r.name+"</div>");
                 }
-                */
+                
                 sql = "SELECT * FROM fakprod WHERE parent = "+rs.getInt("id");
-                Statement stmt2 = Database.getInstance().con.createStatement();
+                Statement stmt2 = this.conn.createStatement();
                 ResultSet rs2 = stmt2.executeQuery(sql);
                 while(rs2.next()){
+                    int pid = rs2.getInt("id");
                     String pname = rs2.getString("nama");
-                    out.println("<div class=\"prodi\">"+pname+"</div>");
-                    /*
+                    out.println("<div class=\"prodi\">("+pid+") "+pname+"</div>");
+                    
                     Vector<Room> vr2 = this.rooms.getByKode(rs2.getInt("id"));
                     Iterator<Room> vri2 = vr2.iterator();
                     Room r2;
                     while(vri2.hasNext()){
                         r2 = vri2.next();
-                        out.println("<div class=\"prodi-room\">"+r2.name+"</div>");
+                        out.println("<div class=\"prodi-room\">#"+r2.name+"</div>");
                     }
-                    */
+                    
                 }
             }
         } catch (Exception ex) {
         } finally {
-            Database.getInstance().close();
             out.close();
         }
     }
@@ -160,14 +164,13 @@ public class AjaxRequestHandler extends HttpServlet {
         String view = request.getParameter("view");
 
         try {
-            Database.getInstance().connect();
             String sql;
             if(view.equals("online")){
                 sql = "SELECT * FROM user,friend WHERE friend.friend = user.iduser AND friend.id_user = "+userId+" AND user.active = 1";
             } else {
                 sql = "SELECT * FROM user,friend WHERE friend.friend = user.iduser AND friend.id_user = "+userId;
             }
-            Statement stmt = Database.getInstance().con.createStatement();
+            Statement stmt = this.conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             out.println("<h2>Friend List</h2>");
             out.println("<a href=\"#\" onclick=\"refreshFriend('all')\">all</a>");
@@ -178,7 +181,6 @@ public class AjaxRequestHandler extends HttpServlet {
             }
         } catch (Exception ex) {
         } finally {
-            Database.getInstance().close();
             out.close();
         }
     }

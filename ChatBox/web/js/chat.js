@@ -71,12 +71,16 @@ window.onload = function(){
             if(/^\/create [A-Za-z0-9]+$/.test($(this).val())){
                 param = $(this).val().split(" ");
                 $.post('AjaxRequestHandler','act=create&roomname='+param[1],function(data){
-                    alert(data);
+                    if(currentState.tab == 'rooms'){
+                        refreshRoom();
+                    }
                 });
             } else if(/^\/create [A-Za-z0-9]+ [0-9]+$/.test($(this).val())){
                 param = $(this).val().split(" ");
                 $.post('AjaxRequestHandler','act=create&roomname='+param[1]+'&kode='+param[2],function(data){
-                    alert(data);
+                    if(currentState.tab == 'rooms'){
+                        refreshRoom();
+                    }
                 });
             } else if(/^\/join [A-Za-z0-9]+$/.test($(this).val())){
 
