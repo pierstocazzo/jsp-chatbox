@@ -50,7 +50,7 @@ public class Register extends HttpServlet {
 
                 Class.forName("com.mysql.jdbc.Driver");
                 String url = "jdbc:mysql://localhost:3306/chatbox";
-                con = (Connection) DriverManager.getConnection(url,"zaniar","zaniar");
+                con = (Connection) DriverManager.getConnection(url,"root","root");
 
                 if (Prodi==null){
                     response.setContentType("text/html;charset=UTF-8");
