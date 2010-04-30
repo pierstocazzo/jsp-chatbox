@@ -28,6 +28,7 @@ public class MyServletContextListener implements ServletContextListener{
         sc.setAttribute("Rooms", r);
         sc.setAttribute("Chats", c);
 
+        Database.getInstance().connect();
         sc.setAttribute("Connection", Database.getInstance().con);
     }
     

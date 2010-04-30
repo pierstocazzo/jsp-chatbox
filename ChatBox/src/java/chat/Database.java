@@ -37,7 +37,7 @@ public class Database {
 
     public void connect(){
         try {
-            this.con = DriverManager.getConnection(this.url, "root", "");
+            this.con = DriverManager.getConnection(this.url, "root", "root");
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
