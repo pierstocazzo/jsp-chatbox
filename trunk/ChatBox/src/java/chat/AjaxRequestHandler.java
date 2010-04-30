@@ -85,7 +85,7 @@ public class AjaxRequestHandler extends HttpServlet {
             }
 
             if(act.equals("chat")){
-
+                
             }
 
             if(act.equals("addfriend")){

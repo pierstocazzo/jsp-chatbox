@@ -19,8 +19,9 @@
     <body>
         <div id="wrapper">
             <div id="header">
-                <div id="title">ChatBox</div>
-                <div id="logout"><a href="Logout">LogOut</a></div>
+                <div id="title">ChatBox
+                <span id="logout"><form method="post" action="Logout"><button type="submit">logout</button></form></span>
+                </div>
             </div>
             <div id="tabs">
                 <ul><li id="rooms" class="tab">Rooms</li><li id="friends" class="tab">Friends</li></ul>
