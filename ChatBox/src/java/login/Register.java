@@ -50,7 +50,7 @@ public class Register extends HttpServlet {
 
                 Class.forName("com.mysql.jdbc.Driver");
                 String url = "jdbc:mysql://localhost:3306/chatbox";
-                con = (Connection) DriverManager.getConnection(url,"root","");
+                con = (Connection) DriverManager.getConnection(url,"zaniar","zaniar");
 
                 if (Prodi==null){
                     response.setContentType("text/html;charset=UTF-8");
@@ -61,16 +61,16 @@ public class Register extends HttpServlet {
                     Prodi = prod.getString("id");
                 }
                 stmt = (Statement) con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                stmt.executeUpdate("INSERT USER (username,password,nama,email,id_fak,id_prodi) VALUES ('"+Username+"','"+Password+"','"+Nama+"','"+Email+"',"+Fak+","+Prodi+")");
+                stmt.executeUpdate("INSERT user (username,password,nama,email,id_fak,id_prodi) VALUES ('"+Username+"','"+Password+"','"+Nama+"','"+Email+"',"+Fak+","+Prodi+")");
 
                 Statement stmt3 = (Statement) con.createStatement();
-                ResultSet rs2 = stmt3.executeQuery("SELECT * FROM USER WHERE username = '"+Username +"' AND password = '"+Password+"'");
+                ResultSet rs2 = stmt3.executeQuery("SELECT * FROM user WHERE username = '"+Username +"' AND password = '"+Password+"'");
                 rs2.next();
                 iduser=rs2.getInt("iduser");
 
 
                 Statement stmt2 = (Statement) con.createStatement();
-                stmt2.executeUpdate("UPDATE USER SET active=1 WHERE username = '"+Username +"' AND password = '"+Password+"'");
+                stmt2.executeUpdate("UPDATE user SET active=1 WHERE username = '"+Username +"' AND password = '"+Password+"'");
 
                 HttpSession session =  request.getSession(true);
                 session.setAttribute("uid", iduser);

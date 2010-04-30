@@ -38,9 +38,9 @@ public class Logout extends HttpServlet {
 
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/chatbox";
-            con = (Connection) DriverManager.getConnection(url,"root","");
+            con = (Connection) DriverManager.getConnection(url,"zaniar","zaniar");
             stmt = (Statement) con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            stmt.executeUpdate("UPDATE USER SET active=0 WHERE iduser = "+uid);
+            stmt.executeUpdate("UPDATE user SET active=0 WHERE iduser = "+uid);
 
             request.getSession().invalidate();
 
