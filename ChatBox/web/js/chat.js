@@ -7,7 +7,7 @@
 window.onload = function(){
     currentState = {
         tab:'rooms',
-        id:0,
+        id:'',
         lastMsgId:-1,
         prevTab:undefined
     };
@@ -16,8 +16,9 @@ window.onload = function(){
         $('.tab').removeClass('selected');
     };
 
-    createNewTab = function(tab,id,title){
-        $('#tabs ul').append('<li id="'+id+'" class="tab"><span>'+title+'</span> <a class="close-tab-button" href="#" onClick="closeTab(\''+id+'\')">x</a></li>');
+    createNewTab = function(tab,title){
+        id = tab+'-'+title;
+        $('#tabs ul').append('<li id="'+id+'" class="tab"><span>#'+title+'</span> <a class="close-tab-button" href="#" onClick="closeTab(\''+id+'\')">x</a></li>');
         $('#'+id+'.tab span').click(function(){
             currentState.tab = tab;
             currentState.id = id;
@@ -25,15 +26,20 @@ window.onload = function(){
             deselectAllTabs();
             $('#'+id+'.tab').addClass('selected');
         });
+        $('#'+id+'.tab span').click();
     };
 
-    createNewRoomTab = function(){
+    createNewRoomTab = function(title){
+        createNewTab('room',title);
+        loadRoom(title);
+    };
+
+    loadRoom = function(roomname){
+        $('#main').load('AjaxRequestHandler','tab=room&roomname='+roomname);
     };
 
     closeTab = function(id){
-        $('#'+id+'.tab').remove();
-        deselectAllTabs();
-        currentState.prevTab.addClass('selected');
+        currentState.prevTab.click();
     };
 
     $('#main').load('AjaxRequestHandler','tab=rooms',function(){
@@ -71,9 +77,7 @@ window.onload = function(){
             if(/^\/create [A-Za-z0-9]+( [0-9]*)?$/.test($(this).val())){
                 param = $(this).val().split(" ");
                 $.post('AjaxRequestHandler','act=create&roomname='+param[1]+'&kode='+param[2],function(data){
-                    if(currentState.tab == 'rooms'){
-                        refreshRoom();
-                    }
+                    createNewRoomTab(param[1]);
                 });
             } else if(/^\/join [A-Za-z0-9]+$/.test($(this).val())){
 
@@ -101,6 +105,8 @@ window.onload = function(){
             } else if(/^\/temp$/.test($(this).val())){
 
             } else if(/^\/setowner [A-Za-z0-9]+$/.test($(this).val())){
+
+            } else {
 
             }
             $(this).val('');

@@ -20,6 +20,7 @@
         <div id="wrapper">
             <div id="header">
                 <div id="title">ChatBox</div>
+                <div id="logout"><a href="Logout">LogOut</a></div>
             </div>
             <div id="tabs">
                 <ul><li id="rooms" class="tab">Rooms</li><li id="friends" class="tab">Friends</li></ul>
