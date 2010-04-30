@@ -79,4 +79,18 @@ public class Rooms {
 
         return ret;
     }
+
+    public Room getRoom(String name){
+        Iterator<Room> i = this.rooms.iterator();
+        Room r;
+
+        while(i.hasNext()){
+            r = i.next();
+            if(r.name.equals(name)){
+                return r;
+            }
+        }
+
+        return null;
+    }
 }

@@ -39,6 +39,11 @@ body {
     padding:5px 20px;
 }
 
+#logout {
+    float:right;
+    color:#fff;
+}
+
 #tabs {
     background:#800;
     padding:10px 5px 2px;
