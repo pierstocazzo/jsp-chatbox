@@ -92,8 +92,18 @@ body {
     margin:5px 5%;
 }
 
+.fakultas {
+    font-weight:bold;
+}
+
+.fakultas-room {
+    margin-left:20px;
+}
+
 .prodi {
     margin-left:20px;
+    font-weight:bold;
+    color:#333;
 }
 
 .prodi-room {
