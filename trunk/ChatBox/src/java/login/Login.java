@@ -44,13 +44,13 @@ public class Login extends HttpServlet {
 
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/chatbox";
-            con = (Connection) DriverManager.getConnection(url,"root","");
+            con = (Connection) DriverManager.getConnection(url,"zaniar","zaniar");
             stmt = (Statement) con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = stmt.executeQuery("SELECT * FROM USER WHERE username = '"+Username +"' AND password = '"+Password+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM user WHERE username = '"+Username +"' AND password = '"+Password+"'");
 
             if (rs.next()) {
                 Statement stmt2 = (Statement) con.createStatement();
-                stmt2.executeUpdate("UPDATE USER SET active=1 WHERE username = '"+Username +"' AND password = '"+Password+"'");
+                stmt2.executeUpdate("UPDATE user SET active=1 WHERE username = '"+Username +"' AND password = '"+Password+"'");
                 role = rs.getInt("role");
                 HttpSession session =  request.getSession(true);
                 session.setAttribute("uid", rs.getInt("iduser"));
